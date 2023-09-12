@@ -7,6 +7,7 @@ export default function Home() {
       <h1>Angkasa Travel</h1>
 
       <Link href="/auth/register">Sign Up</Link>
+      <Link href="/tickets/findticket">Find Tickets</Link>
     </main>
   )
 }
