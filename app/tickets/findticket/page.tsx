@@ -1,15 +1,27 @@
 import BirdLogo from '@/public/tickets/plane-fly-logo-big.png';
 import BirdLogoSmall from '@/public/tickets/plane-fly-logo-small.png';
 import BirdLogoMini from '@/public/tickets/plane-fly.png';
-import GarudaLogo from '@/public/tickets/garuda-indonesia-logo.png';
 import BaseLineLuggage from '@/public/tickets/ic_baseline-luggage.png';
 import FoodService from '@/public/tickets/food-service.png';
 import WifiService from '@/public/tickets/wifi.png';
 import {IoSwapHorizontalSharp} from 'react-icons/io5';
-import {IoEllipse} from 'react-icons/io5';
 import Image from 'next/image'
 import React from 'react'
 import Link from 'next/link';
+
+type FlightData = {
+    id: number,
+    name: string
+    flight_image: string,
+    from: string,
+    hour_0: number,
+    to: string,
+    hour_1: number,
+    duration: string,
+    transit: boolean,
+    services: Array<string>,
+    cost: number
+}
 
 async function getFlightData(url: string) {
     const res = await fetch(url);
@@ -32,21 +44,27 @@ export default async function FindTicket(): Promise<React.ReactNode> {
                 <div className="lg:gap-10 lg:mt-[-2rem] lg:ml-32 text-white">
                     <table>
                         <tbody>
-                            <td>from</td>
-                            <td> </td>
-                            <td  className='px-8'>to</td>
+                            <tr>
+                                <td>from</td>
+                                <td> </td>
+                                <td  className='px-8'>to</td>
+                            </tr>
                         </tbody>
                         <tbody>
-                            <td>Medan</td>
-                            <td><IoSwapHorizontalSharp size={30}/></td>
-                            <td  className='px-8'>Tokyo</td>
+                            <tr>
+                                <td>Medan</td>
+                                <td><IoSwapHorizontalSharp size={30}/></td>
+                                <td  className='px-8'>Tokyo</td>
+                            </tr>
                         </tbody>
                         <tbody>
-                            <td>Monday, 20 July 2020</td>
-                            <td  className='px-2'><IoEllipse/></td>
-                            <td>4 Passengers</td>
-                            <td><IoEllipse/></td>
-                            <td  className='px-2'>Economy</td>
+                            <tr>
+                                <td>Monday, 20 July 2020</td>
+                                <td  className='px-2'>•</td>
+                                <td>4 Passengers</td>
+                                <td>•</td>
+                                <td  className='px-2'>Economy</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -190,7 +208,7 @@ export default async function FindTicket(): Promise<React.ReactNode> {
                 <section className='lg:ml-5'>
                     <h1 className="text-5xl text-blue-700 text-left lg:mt-10">Select Ticket</h1>
                     {
-                        flightData?.map((item: any, index: any) => {
+                        flightData?.map((item: FlightData, index: any) => {
                             return (
                                 <div key={index} className="lg:bg-gray-100 lg:p-8 lg:rounded-xl lg:mt-10">
                                     <div className="flex flex-row lg:gap-10 lg:mb-10">
