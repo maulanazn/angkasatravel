@@ -1,4 +1,4 @@
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import {IoLocation, IoLogoFacebook, IoLogoInstagram, IoLogoTwitch, IoLogoYoutube, IoMailOutline} from 'react-icons/io5';
@@ -26,7 +26,7 @@ export default function TicketLayout({children}: {
                         <Link href="/tickets/findticket" className="lg:hover:border-b-2 lg:hover:border-b-blue-800">
                             Find Tickets
                         </Link>
-                        <Link href="#" className="lg:ml-10 lg:hover:border-b-2 lg:hover:border-b-blue-800">
+                        <Link href="/tickets/mybooking" className="lg:ml-10 lg:hover:border-b-2 lg:hover:border-b-blue-800">
                             My Bookings
                         </Link>
                     </div>

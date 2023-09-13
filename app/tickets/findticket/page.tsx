@@ -2,7 +2,6 @@ import BirdLogo from '@/public/tickets/plane-fly-logo-big.png';
 import BirdLogoSmall from '@/public/tickets/plane-fly-logo-small.png';
 import BirdLogoMini from '@/public/tickets/plane-fly.png';
 import GarudaLogo from '@/public/tickets/garuda-indonesia-logo.png';
-import AirAsiaLogo from '@/public/tickets/air-asia-logo.png';
 import BaseLineLuggage from '@/public/tickets/ic_baseline-luggage.png';
 import FoodService from '@/public/tickets/food-service.png';
 import WifiService from '@/public/tickets/wifi.png';
@@ -12,8 +11,19 @@ import Image from 'next/image'
 import React from 'react'
 import Link from 'next/link';
 
-export default function FindTickets(): React.ReactNode {
-    
+async function getFlightData(url: string) {
+    const res = await fetch(url);
+
+    if (!res.ok) {
+        throw new Error("Failed to fetch data")
+    }
+
+    return res.json()
+}
+
+export default async function FindTicket(): Promise<React.ReactNode> {
+    const flightData = await getFlightData("http://localhost:3000/flight");
+
     return (
         <main className="m-0 p-0">
             <section className="lg:bg-blue-500 lg:w-[84.46rem] xl:bg-blue-500 lg:h-32 lg:rounded-b-3xl lg:ml-18 xl:ml-0">
@@ -152,19 +162,19 @@ export default function FindTickets(): React.ReactNode {
                                     Airlines
                                 </summary>
                                 <div className="flex flex-row">
-                                    Garuda Indonesia
+                                    {flightData[0].name}
                                     <input type="checkbox" />
                                 </div>
                                 <div className="flex flex-row">
-                                    Air Asia
+                                    {flightData[1].name}    
                                     <input type="checkbox" />
                                 </div>
                                 <div className="flex flex-row">
-                                    Lion Air
+                                    {flightData[2].name}
                                     <input type="checkbox"/>
                                 </div>
                                 <div className="flex flex-row">
-                                    Citilink
+                                    {flightData[3].name}
                                     <input type="checkbox"/>
                                 </div>
                             </details>
@@ -173,50 +183,52 @@ export default function FindTickets(): React.ReactNode {
                     <div className='bg-gray-100'>
                         <div className="flex flex-col">
                             <p>Ticket Price</p>
+                            {/* TODO: ADDING PROGRESS SCROLL BAR */}
                         </div>
                     </div>
                 </section>
-                <section className='lg:ml-10'>
+                <section className='lg:ml-5'>
                     <h1 className="text-5xl text-blue-700 text-left lg:mt-10">Select Ticket</h1>
-                    {[
-                        [GarudaLogo, 'Garuda Indonesia', 'IDN', '12.33', 'JPN', '15.21', '3 hours 11 minutes', '(1 transit)', '$214,00/pax'],
-                        [AirAsiaLogo, 'Air Asia', 'IDN', '12.33', 'NEP', '16.21', '4 hours 11 minutes', '(2 transit)', '$314,00/pax']
-                    ].map(([flight_logo, flight_name, from_where, hour_0, to_where, hour_1, duration, is_transit, tax]) => (
-                        <div className="lg:bg-gray-100 lg:p-8 lg:rounded-xl lg:mt-10">
-                            <div className="flex flex-row lg:gap-10 lg:mb-10">
-                                <Image src={flight_logo} alt="Garuda Logo" width={80} height={80} />
-                                <p>{flight_name}</p>
-                            </div>
-                            <div className="flex flex-row lg:gap-10">
-                                <div className="flex flex-col">
-                                    <h1 className='text-3xl'>{from_where}</h1>
-                                    <p>{hour_0}</p>
+                    {
+                        flightData?.map((item: any, index: any) => {
+                            return (
+                                <div key={index} className="lg:bg-gray-100 lg:p-8 lg:rounded-xl lg:mt-10">
+                                    <div className="flex flex-row lg:gap-10 lg:mb-10">
+                                        <img src={item.flight_image} alt={item.name} width={80} height={80} />
+                                        <p>{item.name}</p>
+                                    </div>
+                                    <div className="flex flex-row lg:gap-10">
+                                        <div className="flex flex-col">
+                                            <h1 className='text-3xl'>{item.from}</h1>
+                                            <p>{item.hour_0}</p>
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <Image src={BirdLogoMini} alt="flight logo" width={30} />
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <h1 className='text-3xl'>{item.to}</h1>
+                                            <p>{item.hour_1}</p>
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <p>{item.duration}</p>
+                                            <p className="text-center">{item.transit}</p>
+                                        </div>
+                                        <div className="flex flex-row lg:w-10 lg:h-10 lg:gap-5">
+                                            <Image src={BaseLineLuggage} alt="baseline luggage" width={50} />
+                                            <Image src={FoodService} alt="Food Service" width={50} />
+                                            <Image src={WifiService} alt="Wifi service" width={50} />
+                                        </div>
+                                        <div className="flex flex-row lg:gap-5 lg:ml-28">
+                                            <p>{item.cost}</p>
+                                        </div>
+                                        <Link href="/tickets/mybooking" className='bg-blue-600 lg:h-6 lg:p-5 flex justify-center items-center rounded-xl shadow-lg shadow-black'>
+                                            Select
+                                        </Link>
+                                    </div>
                                 </div>
-                                <div className="flex flex-col">
-                                    <Image src={BirdLogoMini} alt="flight logo" width={30} />
-                                </div>
-                                <div className="flex flex-col">
-                                    <h1 className='text-3xl'>{to_where}</h1>
-                                    <p>{hour_1}</p>
-                                </div>
-                                <div className="flex flex-col">
-                                    <p>{duration}</p>
-                                    <p className="text-center">{is_transit}</p>
-                                </div>
-                                <div className="flex flex-row lg:w-10 lg:h-10 lg:gap-5">
-                                    <Image src={BaseLineLuggage} alt="baseline luggage" width={50} />
-                                    <Image src={FoodService} alt="Food Service" width={50} />
-                                    <Image src={WifiService} alt="Wifi service" width={50} />
-                                </div>
-                                <div className="flex flex-row lg:gap-5 lg:ml-28">
-                                    <p>{tax}</p>
-                                </div>
-                                <Link href="/tickets/mybooking" className='bg-blue-600 lg:h-6 lg:p-5 flex justify-center items-center rounded-xl shadow-lg shadow-black'>
-                                    Select
-                                </Link>
-                            </div>
-                        </div>
-                    ))}
+                            )
+                        })
+                    }
                 </section>
             </div>
         </main>
