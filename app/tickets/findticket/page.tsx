@@ -211,7 +211,7 @@ export default function FindTickets(): React.ReactNode {
                                 <div className="flex flex-row lg:gap-5 lg:ml-28">
                                     <p>{tax}</p>
                                 </div>
-                                <Link href="#" className='bg-blue-600 lg:h-6 lg:p-5 flex justify-center items-center rounded-xl shadow-lg shadow-black'>
+                                <Link href="/tickets/mybooking" className='bg-blue-600 lg:h-6 lg:p-5 flex justify-center items-center rounded-xl shadow-lg shadow-black'>
                                     Select
                                 </Link>
                             </div>
