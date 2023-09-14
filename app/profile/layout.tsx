@@ -1,18 +1,15 @@
+import { Poppins } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import {IoLocation, IoLogoFacebook, IoLogoInstagram, IoLogoTwitch, IoLogoYoutube, IoMailOutline} from 'react-icons/io5';
-import {IoNotificationsOutline} from 'react-icons/io5';
+import { IoLocation, IoLogoFacebook, IoLogoInstagram, IoLogoTwitch, IoLogoYoutube, IoMailOutline, IoNotificationsOutline } from "react-icons/io5";
 import BirdLogoMini from '@/public/auth/angkasa-logo-mini.png';
 import GPlayLogo from '@/public/home/google-play-store.png';
 import APlayLogo from '@/public/home/apple-app-store.png';
-import { Poppins } from "next/font/google";
 
-const poppins = Poppins({weight: "500", preload: false})
+const poppins = Poppins({weight: "500", preload: false});
 
-export default function TicketLayout({children}: {
-    children: React.ReactNode
-}) {
+export default function ProfileLayout({children}: {children: React.ReactNode}) {
     return (
         <html>
             <body className={poppins.className}>
