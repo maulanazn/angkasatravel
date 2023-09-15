@@ -1,3 +1,4 @@
+import { registerUser } from "@/actions/userAction";
 import Link from "next/link";
 
 export default function Register() {
@@ -5,12 +6,12 @@ export default function Register() {
         <main>
             <h1 className="text-5xl font-black lg:mt-24 lg:ml-[-4vh]">Register</h1>
 
-            <form className="lg:mt-5" action="/auth/login">
-                <input type="text" className="border-b-2" placeholder="Full Name" />
+            <form className="lg:mt-5" action={registerUser}>
+                <input type="text" name="name" className="border-b-2" placeholder="Full Name" />
                 <br/>
-                <input type="email" className="border-b-2 lg:mt-10" placeholder="Email" />
+                <input type="email" name="email" className="border-b-2 lg:mt-10" placeholder="Email" />
                 <br/>
-                <input type="password" className="border-b-2 lg:mt-10" placeholder="Password"/>
+                <input type="password" name="password" className="border-b-2 lg:mt-10" placeholder="Password"/>
                 <br/>
                 <button type="submit" className="bg-blue-700 lg:w-60 lg:mt-5 rounded">Sign Up</button>
                 <br/>

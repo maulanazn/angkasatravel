@@ -18,7 +18,7 @@ type FlightData = {
     to: string,
     hour_1: number,
     duration: string,
-    transit: boolean,
+    transit: string,
     services: Array<string>,
     cost: number
 }
@@ -34,46 +34,30 @@ async function getFlightData(url: string) {
 }
 
 export default async function FindTicket(): Promise<React.ReactNode> {
-    const flightData = await getFlightData("http://localhost:3000/flight");
+    const flightData = await getFlightData("https://6503a8bea0f2c1f3faec1195.mockapi.io/flight/lists/allflights");
 
     return (
         <main className="m-0 p-0">
-            <section className="lg:bg-blue-500 lg:w-[84.46rem] xl:bg-blue-500 lg:h-32 lg:rounded-b-3xl lg:ml-18 xl:ml-0">
+            <section className="lg:bg-gray-100 lg:w-[84.46rem] xl:bg-blue-500 lg:h-32 lg:rounded-b-3xl lg:ml-18 xl:ml-0">
                 <Image src={BirdLogo} alt="bird logo" width="150" height="150"/>
                 <Image src={BirdLogoSmall} alt="bird logo" className="lg:mt-[-5rem] lg:ml-20" width="40" height="40"/>
-                <div className="lg:gap-10 lg:mt-[-2rem] lg:ml-32 text-white">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td>from</td>
-                                <td> </td>
-                                <td  className='px-8'>to</td>
-                            </tr>
-                        </tbody>
-                        <tbody>
-                            <tr>
-                                <td>Medan</td>
-                                <td><IoSwapHorizontalSharp size={30}/></td>
-                                <td  className='px-8'>Tokyo</td>
-                            </tr>
-                        </tbody>
-                        <tbody>
-                            <tr>
-                                <td>Monday, 20 July 2020</td>
-                                <td  className='px-2'>•</td>
-                                <td>4 Passengers</td>
-                                <td>•</td>
-                                <td  className='px-2'>Economy</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div className="lg:mt-[-4rem] text-white grid grid-cols-3 lg:p-8">
+                    <p>from</p>
+                    <p> </p>
+                    <p  className='px-8'>to</p>
+                    <p>Medan</p>
+                    <p><IoSwapHorizontalSharp size={30}/></p>
+                    <p  className='px-8'>Tokyo</p>
+                    <p>Monday, 20 July 2020</p>
+                    <p>4 Passengers</p>
+                    <p  className='px-2'>Economy</p>
                 </div>
-                <Link href="#" className='flex text-white flex-row justify-end items-end lg:mt-[-4rem] lg:mr-[2rem]'>
+                <Link href="#" className='flex text-white flex-row justify-end items-end lg:mt-[-6rem] lg:mr-[2rem]'>
                     Change Search
                 </Link>
             </section>
             <div className="flex flex-row">
-                <section className='lg:w-80'>
+                <section className='lg:w-80 container lg:p-8 lg:bg-gray-100 rounded-xl'>
                     <div className="flex flex-row">
                         <p className="text-5xl text-black text-left lg:mt-10">Filter</p>
                         <p className="text-xl text-blue-700 text-left lg:mt-14 lg:ml-24">reset</p>
@@ -81,7 +65,7 @@ export default async function FindTicket(): Promise<React.ReactNode> {
 
                     <div className='bg-gray-100'>
                         <div className="flex flex-col">
-                            <details>
+                            <details className="bg-white">
                                 <summary>
                                     Transit
                                 </summary>
@@ -100,10 +84,10 @@ export default async function FindTicket(): Promise<React.ReactNode> {
                             </details>
                         </div>
                     </div>
-                    <hr/>
+                    <hr className="border-b-4 border-b-black"/>
                     <div className='bg-gray-100'>
                         <div className="flex flex-col">
-                            <details>
+                            <details className="bg-white">
                                 <summary>
                                     Facilities
                                 </summary>
@@ -122,10 +106,10 @@ export default async function FindTicket(): Promise<React.ReactNode> {
                             </details>
                         </div>
                     </div>
-                    <hr/>
+                    <hr className="border-b-4 border-b-black"/>
                     <div className='bg-gray-100'>
                         <div className="flex flex-col">
-                            <details>
+                            <details className="bg-white">
                                 <summary>
                                     Departure Time
                                 </summary>
@@ -148,9 +132,10 @@ export default async function FindTicket(): Promise<React.ReactNode> {
                             </details>
                         </div>
                     </div>
+                    <hr className="border-b-4 border-b-black"/>
                     <div className='bg-gray-100'>
                         <div className="flex flex-col">
-                            <details>
+                            <details className="bg-white">
                                 <summary>
                                     Time Arrived
                                 </summary>
@@ -173,9 +158,10 @@ export default async function FindTicket(): Promise<React.ReactNode> {
                             </details>
                         </div>
                     </div>
+                    <hr className="border-b-4 border-b-black"/>
                     <div className='bg-gray-100'>
                         <div className="flex flex-col">
-                            <details>
+                            <details className="bg-white">
                                 <summary>
                                     Airlines
                                 </summary>
@@ -198,10 +184,23 @@ export default async function FindTicket(): Promise<React.ReactNode> {
                             </details>
                         </div>
                     </div>
+                    <hr className="border-b-4 border-b-black"/>
                     <div className='bg-gray-100'>
-                        <div className="flex flex-col">
-                            <p>Ticket Price</p>
-                            {/* TODO: ADDING PROGRESS SCROLL BAR */}
+                        <div className="flex flex-col bg-white">
+                            <div>
+                            <label
+                                htmlFor="customRange1"
+                                className="mb-2 inline-block lg:text-black dark:text-black"
+                                >Ticket Price</label>
+                            <input
+                                type="range"
+                                className="transparent h-[4px] w-full cursor-pointer appearance-none border-transparent bg-neutral-200 dark:bg-neutral-600"
+                                id="customRange1" />
+                            <div className="grid grid-cols-2 lg:gap-24">
+                                <h1>$ 145,00</h1>
+                                <h1>$ 100,000</h1>
+                            </div>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -237,7 +236,7 @@ export default async function FindTicket(): Promise<React.ReactNode> {
                                             <Image src={WifiService} alt="Wifi service" width={50} />
                                         </div>
                                         <div className="flex flex-row lg:gap-5 lg:ml-28">
-                                            <p>{item.cost}</p>
+                                            <p>$ {item.cost} / pax</p>
                                         </div>
                                         <Link href="/tickets/mybooking" className='bg-blue-600 lg:h-6 lg:p-5 flex justify-center items-center rounded-xl shadow-lg shadow-black'>
                                             Select
