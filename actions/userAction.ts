@@ -24,7 +24,7 @@ export async function loginUser(formData: FormData) {
         password
     }
 
-    const body = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/users/login`, {
+    const body = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`, {
         method: 'POST',
         body: JSON.stringify(newLoginData),
         headers: {
@@ -52,7 +52,7 @@ export async function registerUser(formData: FormData) {
         password
     }
 
-    const body = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/users/register`, {
+    const body = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/register`, {
         method: 'POST',
         body: JSON.stringify(newRegisterData),
         headers: {
