@@ -8,6 +8,7 @@ import GPlayLogo from '@/public/home/google-play-store.png';
 import APlayLogo from '@/public/home/apple-app-store.png';
 
 const poppins = Poppins({weight: "500", preload: false});
+export const runtime = 'edge';
 
 export default function ProfileLayout({children}: {children: React.ReactNode}) {
     return (

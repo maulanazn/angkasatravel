@@ -10,6 +10,8 @@ import { Poppins } from "next/font/google";
 
 const poppins = Poppins({weight: "500", preload: false})
 
+export const runtime = 'edge';
+
 export default function TicketLayout({children}: {
     children: React.ReactNode
 }) {

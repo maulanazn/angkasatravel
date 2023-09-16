@@ -3,6 +3,8 @@ import React from "react";
 import BirdLogo from '@/public/auth/angkasa-logo.png';
 import BirdLogoMini from '@/public/auth/angkasa-logo-mini.png';
 
+export const runtime = 'edge';
+
 export default function AuthLayout({
     children,
 } : {

@@ -9,6 +9,8 @@ export const metadata: Metadata = {
   description: 'Angkasa travel app',
 }
 
+export const runtime = 'edge';
+
 export default function RootLayout({
   children,
 }: {
