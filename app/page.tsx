@@ -7,6 +7,8 @@ import APlayLogo from '@/public/home/apple-app-store.png';
 import Jpn1 from '@/public/home/travel-1.png'
 import Jpn2 from '@/public/home/travel-2.png'
 
+export const runtime = 'edge';
+
 export default function Home() {
   return (
     <main>
