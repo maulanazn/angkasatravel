@@ -33,7 +33,7 @@ async function getFlightData(url: string) {
     return res.json()
 }
 
-export default async function FindTicket(): Promise<React.ReactNode> {
+export default async function FindTicket() {
     const flightData = await getFlightData("https://6503a8bea0f2c1f3faec1195.mockapi.io/flight/lists/allflights");
 
     return (
