@@ -61,7 +61,7 @@ export default async function Home() {
                     <Image src={Jpn2} alt="japan 2" width={400}/>
                 </section>
                 <Image src={Jpn1} alt="Japan" className="lg:mt-[-20rem]" width={600} />
-                <h1 className='text-blue-700 text-xl lg:mt-10'>TRENDING</h1>
+                <h1 className='text-blue-700 text-xl lg:mt-32'>TRENDING</h1>
                 <div className="grid grid-cols-2 lg:mb-10">
                     <h1 className="text-black text-3xl">Trending Destinations</h1>
                     <h1 className="text-black text-xl lg:ml-[30rem]">View all</h1>
@@ -85,19 +85,19 @@ export default async function Home() {
                 </div>
             </div>
 
-            <div className="bg-blue-500 lg:w-200 lg:h-150 rounded-xl lg:ml-24 lg:mt-10">
+            <div className="bg-blue-500 lg:w-200 lg:h-150 rounded-xl lg:ml-24 lg:mt-32">
                 <Image src="/tickets/plane-fly-logo-big.png" alt="bird logo" width={500} height={70}/>
                 <div className="lg:mt-[-22rem]">
                     <div className="grid grid-rows-2 lg:text-center">
                         <p className="text-white text-xl">TOP 10</p>
                         <p className="text-white text-3xl">Top 10 Destinations</p>
                     </div>
-                    <div className="grid grid-cols-6 lg:text-center">
+                    <div className="grid lg:grid-cols-6 sm:grid-cols-1 lg:text-center">
                         <div className="grid grid-cols-6 lg:gap-44 lg:ml-32 lg:mt-10">
                         {tripData?.map((item: TripData, index: any) => {
                             return (
                                 <div key={index} className="shadow-lg grid grid-rows-2 shadow-black hover:shadow-none">
-                                    <Image className="rounded-full" src={item.trip_image} alt={item.places} height={50} width={50} />
+                                    <Image className="rounded-full" src={item.trip_image} alt={item.places} width={250} height={0} />
                                     <p className="text-white text-xl">{item.country}</p>
                                 </div>
                             )
