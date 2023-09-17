@@ -18,22 +18,22 @@ export default function TicketLayout({children}: {
     return (
         <html>
             <body className={poppins.className}>
-                <nav className='flex flex-row lg:p-10'>
+                <nav className='grid lg:grid-cols-3 lg:p-10'>
                     <Link href='/'>
                         <Image src={BirdLogoMini} alt="angkasa logo" width="120" height="88" />
                     </Link>
 
-                    <div className='lg:gap-1'>
-                        <input type="search" className="lg:ml-60 lg:mr-5 bg-gray-200 lg:w-80 lg:h-10 rounded-xl border-xl" placeholder="Where you want to go?"/>
-                        <Link href="/tickets/findticket" className="lg:hover:border-b-2 lg:hover:border-b-blue-800">
+                    <div className="grid grid-cols-3 lg:gap-5">
+                        <input type="search" className="lg:ml-[-10rem] lg:mr-5 bg-gray-200 lg:w-80 lg:h-10 rounded-xl border-xl" placeholder="Where you want to go?"/>
+                        <Link href="/tickets/findticket" className="lg:hover:border-b-2 lg:ml-20 lg:hover:border-b-blue-800">
                             Find Tickets
                         </Link>
-                        <Link href="/tickets/mybooking" className="lg:ml-10 lg:hover:border-b-2 lg:hover:border-b-blue-800">
+                        <Link href="/profile/1/booking" className="lg:ml-28 lg:hover:border-b-2 lg:hover:border-b-blue-800">
                             My Bookings
                         </Link>
                     </div>
-
-                    <div className="flex flex-row lg:ml-44 lg:gap-5">
+                    
+                    <div className="grid grid-cols-3 lg:gap-5 lg:ml-40">
                         <Link href="#">
                             <IoMailOutline size={30}/>
                         </Link>

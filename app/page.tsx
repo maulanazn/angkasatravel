@@ -32,20 +32,18 @@ export default async function Home() {
 
     return (
         <main className='container'>
-            <nav className='flex flex-row lg:p-10'>
+            <nav className='grid grid-cols-5 lg:p-10'>
                 <Link href='/'>
                     <Image src={BirdLogoMini} alt="angkasa logo" width="120" height="88" />
                 </Link>
 
-                <div className='lg:gap-1'>
-                    <input type="search" className="lg:ml-60 lg:mr-5 bg-gray-200 lg:w-80 lg:h-10 rounded-xl border-xl" placeholder="Where you want to go?" />
-                    <Link href="/tickets/findticket" className="lg:hover:border-b-2 lg:hover:border-b-blue-800">
-                        Find Tickets
-                    </Link>
-                    <Link href="/tickets/mybooking" className="lg:ml-10 lg:hover:border-b-2 lg:hover:border-b-blue-800">
-                        My Bookings
-                    </Link>
-                </div>
+                <input type="search" className="lg:ml-42 lg:mr-5 bg-gray-200 lg:w-80 lg:h-10 rounded-xl border-xl" placeholder="Where you want to go?" />
+                <Link href="/tickets/findticket" className="lg:hover:border-b-2 lg:ml-40 lg:hover:border-b-blue-800">
+                    Find Tickets
+                </Link>
+                <Link href="/tickets/mybooking" className="lg:ml-36 lg:hover:border-b-2 lg:hover:border-b-blue-800">
+                    My Bookings
+                </Link>
 
                 <div className="flex flex-row lg:ml-44 lg:mt-2 lg:gap-5">
                     <Link href="/auth/register">Sign Up</Link>
