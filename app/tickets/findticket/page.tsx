@@ -1,9 +1,7 @@
 import BirdLogo from '@/public/tickets/plane-fly-logo-big.png';
 import BirdLogoSmall from '@/public/tickets/plane-fly-logo-small.png';
 import BirdLogoMini from '@/public/tickets/plane-fly.png';
-import BaseLineLuggage from '@/public/tickets/ic_baseline-luggage.png';
-import FoodService from '@/public/tickets/food-service.png';
-import WifiService from '@/public/tickets/wifi.png';
+
 import {IoSwapHorizontalSharp} from 'react-icons/io5';
 import Image from 'next/image'
 import React from 'react'
@@ -210,32 +208,32 @@ export default async function FindTicket() {
                         flightData?.map((item: FlightData, index: any) => {
                             return (
                                 <div key={index} className="lg:bg-gray-100 lg:p-8 lg:rounded-xl lg:mt-10">
-                                    <div className="flex flex-row lg:gap-10 lg:mb-10">
+                                    <div className="lg:mb-10 grid grid-cols-2">
                                         <img src={item.flight_image} alt={item.name} width={80} height={80} />
-                                        <p>{item.name}</p>
+                                        <p className='lg:ml-[-20rem]'>{item.name}</p>
                                     </div>
-                                    <div className="flex flex-row lg:gap-10">
-                                        <div className="flex flex-col">
-                                            <h1 className='text-3xl'>{item.from}</h1>
+                                    <div className="lg:gap-5 flex flex-row">
+                                        <div className="grid grid-rows-3">
+                                            <h1 className='text-xl'>{item.from}</h1>
                                             <p>{item.hour_0}</p>
                                         </div>
-                                        <div className="flex flex-col">
+                                        <div className="grid grid-cols-1">
                                             <Image src={BirdLogoMini} alt="flight logo" width={30} />
                                         </div>
-                                        <div className="flex flex-col">
-                                            <h1 className='text-3xl'>{item.to}</h1>
+                                        <div className="grid grid-rows-3">
+                                            <h1 className='text-xl'>{item.to}</h1>
                                             <p>{item.hour_1}</p>
                                         </div>
-                                        <div className="flex flex-col">
+                                        <div className="grid grid-rows-2">
                                             <p>{item.duration}</p>
                                             <p className="text-center">{item.transit}</p>
                                         </div>
-                                        <div className="flex flex-row lg:w-10 lg:h-10 lg:gap-5">
-                                            <Image src={BaseLineLuggage} alt="baseline luggage" width={50} />
-                                            <Image src={FoodService} alt="Food Service" width={50} />
-                                            <Image src={WifiService} alt="Wifi service" width={50} />
+                                        <div className="lg:w-50 lg:h-40 lg:gap-5 grid grid-cols-3">
+                                            <img src="/tickets/ic_baseline-luggage.png" alt="baseline luggage" width={50} />
+                                            <img src="/tickets/food-service.png" alt="Food Service" width={50} />
+                                            <img src="/tickets/wifi.png" alt="Wifi service" width={50} />
                                         </div>
-                                        <div className="flex flex-row lg:gap-5 lg:ml-28">
+                                        <div className="lg:gap-5 lg:ml-8">
                                             <p>$ {item.cost} / pax</p>
                                         </div>
                                         <Link href="/tickets/mybooking" className='bg-blue-600 lg:h-6 lg:p-5 flex justify-center items-center rounded-xl shadow-lg shadow-black'>
