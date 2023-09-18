@@ -41,7 +41,7 @@ export default async function Home() {
                 <Link href="/tickets/findticket" className="lg:hover:border-b-2 lg:ml-40 lg:hover:border-b-blue-800">
                     Find Tickets
                 </Link>
-                <Link href="/tickets/mybooking" className="lg:ml-36 lg:hover:border-b-2 lg:hover:border-b-blue-800">
+                <Link href="/profile/1/booking" className="lg:ml-36 lg:hover:border-b-2 lg:hover:border-b-blue-800">
                     My Bookings
                 </Link>
 

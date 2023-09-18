@@ -14,16 +14,16 @@ export default function Profile(): React.ReactNode {
                 </div>
                 <form action="#" className="grid grid-cols-2">
                     <div className="grid grid-rows-1">
-                        <div className="lg:mt-10 lg:gap-1 grid grid-rows-1">
+                        <div className="lg:gap-1 lg:mt-[2.5rem] grid grid-rows-1">
                             <label htmlFor="email">Email</label>
                             <br/>
-                            <input type="email" className="border-b-2" placeholder="maulanazn@mail.com"/>
+                            <input type="email" className="lg:mt-[-33.5rem] lg:h-7 border-b-2" placeholder="maulanazn@mail.com"/>
                         </div>
                         <br/>
-                        <div className="lg:mt-10 lg:gap-1 grid grid-rows-1">
+                        <div className="lg:mt-[-30rem] lg:gap-1 grid grid-rows-1">
                             <label htmlFor="phone">Phone Number</label>
                             <br/>
-                            <input type="tel" className="border-b-2" placeholder="+628928382772"/>
+                            <input type="tel" className="lg:mt-[-25.5rem] lg:h-7 border-b-2" placeholder="+628928382772"/>
                         </div>
                     </div>
                     <div className="grid grid-rows-6 lg:mt-10 lg:ml-14 lg:gap-3">
