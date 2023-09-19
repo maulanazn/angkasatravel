@@ -21,18 +21,18 @@ export default function MyBooking(): React.ReactNode {
                     <Link href='#'>View Details</Link>
                 </div>
             </section>
-            <div className="flex flex-row">
+            <div className="grid grid-cols-2">
                 <form action="#" className="lg:p-8 lg:ml-12">
                     <div className="bg-white rounded-xl lg:p-8 lg:w-[42rem] mt-[-4rem] lg:mb-10">
-                        <div className="flex flex-col lg:gap-5">
+                        <div className="grid grid-rows-1 lg:gap-5">
                             <label htmlFor="name">Full Name</label>
                             <input type="text" id="name" className="border-b-2" value="Mike Kovaski"/>
                         </div>
-                        <div className="flex flex-col lg:gap-5 mt-5">
+                        <div className="grid grid-rows-1 lg:gap-5 mt-5">
                             <label htmlFor="email">Email</label>
                             <input type="email" id="email" className="border-b-2" value="mikekovaski@mail.com"/>
                         </div>
-                        <div className="flex flex-col lg:gap-5 mt-5">
+                        <div className="grid grid-rows-1 lg:gap-5 mt-5">
                             <label htmlFor="phone">Phone Number</label>
                             <div className="flex flex-row prose lg:prose-lg prose-slate">
                                 <select>
@@ -46,7 +46,7 @@ export default function MyBooking(): React.ReactNode {
                     </div>
                     <h1>Passenger Details</h1>
                     <div className="bg-white rounded-xl lg:p-8 lg:w-[42rem] lg:mb-10">
-                        <div className="flex bg-blue-500 flex-row lg:p-2 rounded-xl">
+                        <div className="flex flex-row bg-blue-500 lg:p-2 rounded-xl">
                             <p>Passenger: 1 Adult</p>
                             <label
                                 className="inline-block pl-[0.15rem] hover:cursor-pointer lg:ml-80"
@@ -59,45 +59,38 @@ export default function MyBooking(): React.ReactNode {
                                 id="flexSwitchCheckDefault" 
                             />
                         </div>
-                        <div className="flex flex-col lg:gap-5 lg:mt-10">
+                        <div className="grid grid-cols-1 lg:gap-5 lg:mt-10">
                             <label htmlFor="title">Title</label>
-                            <div className="flex flex-row prose lg:prose-lg prose-slate">
-                                <input type="text" id="mr" className="border-b-2" placeholder="Mr"/>
-                                <select>
-                                    <option value="mr">Mr</option>
-                                    <option value="mrs">Mrs</option>
-                                    <option value="ms">Ms</option>
-                                </select>
-                            </div>
+                            <select className="border-b-2 bg-white" data-te-select-init>
+                                <option value="mr">Mr</option>
+                                <option value="mrs">Mrs</option>
+                                <option value="aceh">Ms</option>
+                            </select>
                         </div>
-                        <div className="flex flex-col lg:gap-5 mt-5">
+                        <div className="grid grid-cols-1 lg:gap-5 mt-5">
                             <label htmlFor="name">Full Name</label>
                             <input type="text" id="name" className="border-b-2" placeholder="Mike Kovaski"/>
                         </div>
-                        <div className="flex flex-col lg:gap-5 mt-5">
+                        <div className="grid grid-cols-1 lg:gap-5 mt-5">
                             <label htmlFor="nationality">Nasionality</label>
-                            <div className="flex flex-row prose lg:prose-lg prose-slate">
-                                <input type="text" id="idn" className="border-b-2" placeholder="Indonesia"/>
-                                <select>
-                                    <option value="idn">Indonesia</option>
-                                    <option value="jpn">Japan</option>
-                                    <option value="us">United States</option>
-                                    <option value="uk">United Kingdom</option>
-                                </select>
-                            </div>
+                            <select className="border-b-2 bg-white" data-te-select-init>
+                                <option value="Indonesia">Indonesia</option>
+                                <option value="Russia">Russia</option>
+                                <option value="Tiongkok">Tiongkok</option>
+                            </select>
                         </div>
                     </div>
                     <h1>Passenger Details</h1>
                     <div className="bg-white rounded-xl lg:p-8 lg:w-[42rem] lg:mb-10">
-                        <div className="flex flex-row lg:gap-5">
-                            <input type="checkbox" id="insurance"/>
-                            <p className="text-xl text-black">
+                        <div className="grid grid-cols-3 lg:gap-5">
+                            <input type="checkbox" className="lg:ml-[-10rem]" id="insurance"/>
+                            <p className="text-xl lg:ml-[-10rem] text-black">
                                 Travel Insurance
                             </p>
+                            <p className="flex lg:mt-[-2rem] justify-end items-end">
+                                $2,00/pax
+                            </p>
                         </div>
-                        <p className="flex lg:mt-[-2rem] justify-end items-end">
-                            $2,00/pax
-                        </p>
                         <hr className="lg:mt-5"/>
                         <p className="flex justify-start items-start lg:mt-5">
                             Get travel compensation up to 10.000,00
@@ -107,28 +100,20 @@ export default function MyBooking(): React.ReactNode {
                         Proceed to Payment
                     </button>
                 </form>
-                <section className="bg-white rounded-xl lg:p-8 lg:w-[32rem] lg:h-96 mt-[-2rem]">
-                    <div className="flex flex-row lg:mb-5">
+                <section className="bg-white lg:ml-32 rounded-xl lg:p-8 lg:w-[32rem] lg:h-96 mt-[-2rem]">
+                    <div className="grid grid-cols-3 lg:mb-5">
                         <Image src={GarudaLogo} alt="Garuda Logo" width={100} />
                         <p className="text-xl text-black">Garuda Indonesia</p>
                     </div>
-                    <table className="lg:mb-5">
-                        <tbody>
-                            <tr>
-                                <td>Medan (IDN)</td>
-                                <td><Image src={PlaneLogo} alt="plane flyyy" width="20"/></td>
-                                <td>Tokyo (JPN)</td>
-                            </tr>
-                        </tbody>
-                        <tbody>
-                            <tr>
-                                <td>Sunday, 15 August 2020</td>
-                                <td>•</td>
-                                <td>12.33 - 15.21</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div className="flex flex-col">
+                    <div className="grid grid-cols-3 lg:mb-5 lg:ml-5">
+                        <p className="lg:ml-[-1rem]">Medan (IDN)</p>
+                        <Image className="lg:ml-0" src={PlaneLogo} alt="plane flyyy" width="20"/>
+                        <p className="lg:ml-[-6rem]">Tokyo (JPN)</p>
+                        <p className="lg:ml-[-1rem]">Sunday, 15 August 2020</p>
+                        <p className="lg:ml-0">•</p>
+                        <p className="lg:ml-[-6rem]">12.33 - 15.21</p>
+                    </div>
+                    <div className="grid grid-rows-1">
                         <div className="flex flex-row">
                             <IoCheckmarkDoneCircleOutline/>
                             <p className="text-blue-500">Refundable</p>
