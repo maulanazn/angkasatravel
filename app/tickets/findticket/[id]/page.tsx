@@ -1,13 +1,55 @@
+'use client'
+
 import Image from "next/image";
 import React from "react";
 import BirdLogo from '@/public/tickets/plane-fly-logo-big.png';
 import PlaneLogo from '@/public/tickets/plane-fly.png';
 import BirdLogoSmall from '@/public/tickets/plane-fly-logo-small.png';
-import GarudaLogo from '@/public/tickets/garuda-indonesia-logo.png';
 import Link from "next/link";
 import { IoCheckmarkDoneCircleOutline } from "react-icons/io5";
+import { useParams } from "next/navigation";
 
-export default function MyBooking(): React.ReactNode {
+type FlightData = {
+    data: {
+        code: string,
+        name: string
+        photo: string,
+        from: {
+            location: string,
+            country: string
+        },
+        takeoff: number,
+        to: {
+            location: string,
+            country: string
+        },
+        landing: number,
+        interval_time: string,
+        transit: string,
+        facilities: Array<string>,
+        price: number
+    }
+}
+
+async function getDetailFlightData(url: string) {
+    const res = await fetch(url);
+
+    if (!res.ok) {
+        throw new Error("Failed to fetch data")
+    }
+
+    return res.json()
+}
+
+export default async function MyBooking() {
+    const code = useParams();
+    const {id} = code;
+
+    const flightDetailData: FlightData = await getDetailFlightData(`${process.env.NEXT_PUBLIC_BASE_URL}/airlines/flight/${id}`);
+
+    const landing_time = new Date(flightDetailData?.data?.landing).toLocaleTimeString('id-ID');
+    const takeoff_time = new Date(flightDetailData?.data?.takeoff).toLocaleTimeString('id-ID');
+
     return (
         <main className="bg-gray-100">
             <section className="lg:bg-blue-500 lg:w-[84.46rem] xl:bg-blue-500 lg:h-32 lg:rounded-b-3xl lg:ml-18 xl:ml-0">
@@ -102,16 +144,16 @@ export default function MyBooking(): React.ReactNode {
                 </form>
                 <section className="bg-white lg:ml-32 rounded-xl lg:p-8 lg:w-[32rem] lg:h-96 mt-[-2rem]">
                     <div className="grid grid-cols-3 lg:mb-5">
-                        <Image src={GarudaLogo} alt="Garuda Logo" width={100} />
-                        <p className="text-xl text-black">Garuda Indonesia</p>
+                        <Image src={flightDetailData?.data?.photo} alt="Garuda Logo" width={100} height={0} />
+                        <p className="text-xl text-black">{flightDetailData?.data?.name}</p>
                     </div>
                     <div className="grid grid-cols-3 lg:mb-5 lg:ml-5">
-                        <p className="lg:ml-[-1rem]">Medan (IDN)</p>
+                        <p className="lg:ml-[-1rem]">{flightDetailData?.data?.from.location} ({flightDetailData?.data?.from.country})</p>
                         <Image className="lg:ml-0" src={PlaneLogo} alt="plane flyyy" width="20"/>
-                        <p className="lg:ml-[-6rem]">Tokyo (JPN)</p>
+                        <p className="lg:ml-[-6rem]">{flightDetailData?.data?.to.location} ({flightDetailData?.data?.to.country})</p>
                         <p className="lg:ml-[-1rem]">Sunday, 15 August 2020</p>
                         <p className="lg:ml-0">•</p>
-                        <p className="lg:ml-[-6rem]">12.33 - 15.21</p>
+                        <p className="lg:ml-[-6rem]">{takeoff_time} - {landing_time}</p>
                     </div>
                     <div className="grid grid-rows-1">
                         <div className="flex flex-row">
@@ -125,7 +167,7 @@ export default function MyBooking(): React.ReactNode {
                         <hr className="lg:mt-10 lg:mb-10"/>
                         <div className="flex flex-row">
                             <p>Total Payment</p>
-                            <p className="lg:ml-80 text-blue-500">$145,00</p>
+                            <p className="lg:ml-80 text-blue-500">{flightDetailData?.data?.price}</p>
                         </div>
                     </div>
                 </section>

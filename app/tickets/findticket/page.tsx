@@ -8,17 +8,21 @@ import React from 'react'
 import Link from 'next/link';
 
 type FlightData = {
-    id: number,
+    code: string,
     name: string
-    flight_image: string,
-    from: string,
-    hour_0: number,
-    to: string,
-    hour_1: number,
-    duration: string,
+    photo: string,
+    from: {
+        location: string
+    },
+    takeoff: number,
+    to: {
+        location: string
+    },
+    landing: number,
+    interval_time: string,
     transit: string,
-    services: Array<string>,
-    cost: number
+    facilities: Array<string>,
+    price: number
 }
 
 async function getFlightData(url: string) {
@@ -32,7 +36,7 @@ async function getFlightData(url: string) {
 }
 
 export default async function FindTicket() {
-    const flightData = await getFlightData("https://6503a8bea0f2c1f3faec1195.mockapi.io/flight/lists/allflights");
+    const flightData = await getFlightData(`${process.env.NEXT_PUBLIC_BASE_URL}/airlines/flight`);
 
     return (
         <main className='container'>
@@ -164,19 +168,19 @@ export default async function FindTicket() {
                                     Airlines
                                 </summary>
                                 <div className="grid grid-cols-2">
-                                    <p>{flightData[0].name}</p>
+                                    <p>Garuda Indonesia</p>
                                     <input type="checkbox" />
                                 </div>
                                 <div className="grid grid-cols-2">
-                                    <p>{flightData[1].name}</p>    
+                                    <p>Lion Air</p>    
                                     <input type="checkbox" />
                                 </div>
                                 <div className="grid grid-cols-2">
-                                    <p>{flightData[2].name}</p>
+                                    <p>Citilink</p>
                                     <input type="checkbox"/>
                                 </div>
                                 <div className="grid grid-cols-2">
-                                    <p>{flightData[3].name}</p>
+                                    <p>Air Asia</p>
                                     <input type="checkbox"/>
                                 </div>
                             </details>
@@ -204,27 +208,27 @@ export default async function FindTicket() {
                 <section className='lg:ml-[-18rem] grid grid-cols-1'>
                     <h1 className="text-5xl text-blue-700 text-left lg:mt-10">Select Ticket</h1>
                     {
-                        flightData?.map((item: FlightData, index: any) => {
+                        flightData?.data?.map((item: FlightData, index: any) => {
                             return (
                                 <div key={index} className="lg:bg-gray-100 lg:p-8 lg:rounded-xl lg:mt-10">
                                     <div className="lg:mb-10 grid grid-cols-2">
-                                        <img src={item.flight_image} alt={item.name} width={80} height={80} />
+                                        <img src={item.photo} alt={item.name} width={80} height={80} />
                                         <p className='lg:ml-[-20rem]'>{item.name}</p>
                                     </div>
                                     <div className="lg:gap-5 grid grid-cols-7">
                                         <div className="grid grid-rows-3">
-                                            <h1 className='text-xl'>{item.from}</h1>
-                                            <p>{item.hour_0}</p>
+                                            <h1 className='text-xl'>{item.from.location}</h1>
+                                            <p>{new Date(item.takeoff).toLocaleTimeString('id-ID')}</p>
                                         </div>
-                                        <div className="grid grid-cols-1">
+                                        <div className="grid grid-cols-1 lg:ml-4">
                                             <Image src={BirdLogoMini} alt="flight logo" width={30} />
                                         </div>
-                                        <div className="grid grid-rows-3">
-                                            <h1 className='text-xl'>{item.to}</h1>
-                                            <p>{item.hour_1}</p>
+                                        <div className="grid grid-rows-3 lg:ml-[-3rem]">
+                                            <h1 className='text-xl'>{item.to.location}</h1>
+                                            <p>{new Date(item.landing).toLocaleTimeString('id-ID')}</p>
                                         </div>
                                         <div className="grid grid-rows-2">
-                                            <p>{item.duration}</p>
+                                            <p>{item.interval_time}</p>
                                             <p className="text-center">{item.transit}</p>
                                         </div>
                                         <div className="lg:w-50 lg:h-40 lg:gap-5 grid grid-cols-3">
@@ -233,9 +237,9 @@ export default async function FindTicket() {
                                             <img src="/tickets/wifi.png" alt="Wifi service" width={50} />
                                         </div>
                                         <div className="lg:gap-5 lg:ml-8">
-                                            <p>$ {item.cost} / pax</p>
+                                            <p>$ {item.price} / pax</p>
                                         </div>
-                                        <Link href="/tickets/mybooking" className='bg-blue-600 lg:h-6 lg:p-5 flex justify-center items-center rounded-xl shadow-lg shadow-black'>
+                                        <Link href={`/tickets/findticket/${item.code}`} className='bg-blue-600 lg:h-6 lg:p-5 flex justify-center items-center rounded-xl shadow-lg shadow-black'>
                                             Select
                                         </Link>
                                     </div>
