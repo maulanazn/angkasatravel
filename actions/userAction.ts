@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import {cookies} from 'next/headers';
 
 type LoginData = {
     email: string
@@ -14,6 +15,7 @@ type RegisterData = {
 
 export async function loginUser(formData: FormData) {
     'use server'
+    const cookieStorage = cookies();
     const email: any = formData.get("email")?.toString();
     const password: any = formData.get("password")?.toString();
 
@@ -32,9 +34,15 @@ export async function loginUser(formData: FormData) {
         }
     })
 
+    const data = await body.json();
+
+    cookieStorage.set("id", data.data.uniqId, {secure: true})
+    cookieStorage.set("token", data.data.access_token, {secure: true})
+
     if (!body.ok) {
         redirect('/auth/login')
     }
+
     redirect('/')
 }
 

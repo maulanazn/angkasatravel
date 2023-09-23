@@ -6,6 +6,7 @@ import {IoSwapHorizontalSharp} from 'react-icons/io5';
 import Image from 'next/image'
 import React from 'react'
 import Link from 'next/link';
+import { cookies } from 'next/headers';
 
 type FlightData = {
     code: string,
@@ -36,6 +37,7 @@ async function getFlightData(url: string) {
 }
 
 export default async function FindTicket() {
+    const cookieStorage = cookies();
     const flightData = await getFlightData(`${process.env.NEXT_PUBLIC_BASE_URL}/airlines/flight`);
 
     return (
@@ -239,9 +241,9 @@ export default async function FindTicket() {
                                         <div className="lg:gap-5 lg:ml-8">
                                             <p>$ {item.price} / pax</p>
                                         </div>
-                                        <Link href={`/tickets/findticket/${item.code}`} className='bg-blue-600 lg:h-6 lg:p-5 flex justify-center items-center rounded-xl shadow-lg shadow-black'>
+                                        <Link href={cookieStorage.has("token") ? `/tickets/findticket/${item.code}` : "/auth/login"} className='bg-blue-600 lg:h-6 lg:p-5 flex justify-center items-center rounded-xl shadow-lg shadow-black'>
                                             Select
-                                        </Link>
+                                        </Link> 
                                     </div>
                                 </div>
                             )

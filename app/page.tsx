@@ -6,6 +6,8 @@ import GPlayLogo from '@/public/home/google-play-store.png';
 import APlayLogo from '@/public/home/apple-app-store.png';
 import Jpn1 from '@/public/home/travel-1.png'
 import Jpn2 from '@/public/home/travel-2.png'
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 export const runtime = 'edge';
 
@@ -27,7 +29,18 @@ async function getTripData(url: string) {
     return res.json()
 }
 
+async function logoutUser() {
+    'use server'
+    const cookieStorage = cookies();
+
+    cookieStorage.delete("id")
+    cookieStorage.delete("token")
+
+    return redirect("/auth/login")
+}
+
 export default async function Home() {
+    const cookieStorage = cookies();
     const tripData = await getTripData("https://6503a8bea0f2c1f3faec1195.mockapi.io/flight/lists/trip_inspiration");
 
     return (
@@ -45,9 +58,18 @@ export default async function Home() {
                     My Bookings
                 </Link>
 
-                <div className="flex flex-row lg:ml-44 lg:mt-2 lg:gap-5">
-                    <Link href="/auth/register">Sign Up</Link>
-                </div>
+                {
+                    cookieStorage.has("token") ? 
+                        <form action={logoutUser} method="get">
+                            <div className="flex flex-row lg:ml-44 lg:mt-2 lg:gap-5">
+                                <button type='submit'>Log Out</button>
+                            </div>
+                        </form>
+                        :
+                        <div className="flex flex-row lg:ml-44 lg:mt-2 lg:gap-5">
+                            <Link href="/auth/register">Sign Up</Link>
+                        </div>
+                }
             </nav>
 
             <div className="lg:p-8">
