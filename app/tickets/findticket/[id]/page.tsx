@@ -8,7 +8,7 @@ import BirdLogoSmall from '@/public/tickets/plane-fly-logo-small.png';
 import Link from "next/link";
 import { IoCheckmarkDoneCircleOutline } from "react-icons/io5";
 import { useParams } from "next/navigation";
-
+import {formatToHours} form "@/lib/HelperAction";
 type FlightData = {
     data: {
         code: string,
@@ -47,8 +47,8 @@ export default async function MyBooking() {
 
     const flightDetailData: FlightData = await getDetailFlightData(`${process.env.NEXT_PUBLIC_BASE_URL}/airlines/flight/${id}`);
 
-    const landing_time = new Date(flightDetailData?.data?.landing).toLocaleTimeString('id-ID');
-    const takeoff_time = new Date(flightDetailData?.data?.takeoff).toLocaleTimeString('id-ID');
+    const landing_time = formatToHours(flightDetailData?.data?.landing, 'id-ID');
+    const takeoff_time = formatToHours(flightDetailData?.data?.takeoff, 'id-ID');
 
     return (
         <main className="bg-gray-100">
