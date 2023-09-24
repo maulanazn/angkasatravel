@@ -51,10 +51,10 @@ export default async function Home() {
                 </Link>
 
                 <input type="search" className="lg:ml-42 lg:mr-5 bg-gray-200 lg:w-80 lg:h-10 rounded-xl border-xl" placeholder="Where you want to go?" />
-                <Link href="/tickets/findticket" className="lg:hover:border-b-2 lg:ml-40 lg:hover:border-b-blue-800">
+                <Link href={cookieStorage.has("token") ? "/tickets/findticket" : '/auth/login'} className="lg:hover:border-b-2 lg:ml-40 lg:hover:border-b-blue-800">
                     Find Tickets
                 </Link>
-                <Link href="/profile/1/booking" className="lg:ml-36 lg:hover:border-b-2 lg:hover:border-b-blue-800">
+                <Link href={cookieStorage.has("token") ? `/profile/1/booking` : '/auth/login'} className="lg:ml-36 lg:hover:border-b-2 lg:hover:border-b-blue-800">
                     My Bookings
                 </Link>
 

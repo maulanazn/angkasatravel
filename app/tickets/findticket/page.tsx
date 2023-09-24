@@ -1,12 +1,12 @@
+'use client';
 import BirdLogo from '@/public/tickets/plane-fly-logo-big.png';
 import BirdLogoSmall from '@/public/tickets/plane-fly-logo-small.png';
 import BirdLogoMini from '@/public/tickets/plane-fly.png';
 
 import {IoSwapHorizontalSharp} from 'react-icons/io5';
 import Image from 'next/image'
-import React from 'react'
+import React, { cache, useEffect, useState } from 'react'
 import Link from 'next/link';
-import { cookies } from 'next/headers';
 
 type FlightData = {
     code: string,
@@ -27,7 +27,7 @@ type FlightData = {
 }
 
 async function getFlightData(url: string) {
-    const res = await fetch(url);
+    const res = await fetch(url, {cache: 'force-cache'});
 
     if (!res.ok) {
         throw new Error("Failed to fetch data")
@@ -36,9 +36,31 @@ async function getFlightData(url: string) {
     return res.json()
 }
 
-export default async function FindTicket() {
-    const cookieStorage = cookies();
-    const flightData = await getFlightData(`${process.env.NEXT_PUBLIC_BASE_URL}/airlines/flight`);
+export default function FindTicket() {
+    const [facilities, setFacilities] = useState([]);
+    const [airlineId, setAirlineId] = useState([]);
+    const [price, setPrice] = useState([]);
+    const [specificFlight, setSpecificFlight] = useState([]);
+
+    const getFlight = async () => {
+        const flightData = await getFlightData(`${process.env.NEXT_PUBLIC_BASE_URL}/airlines/flight`);
+        
+        setSpecificFlight(flightData.data);
+    }
+
+    const getFilteredFlight = async () => {
+        const filteredFlight = await getFlightData(`${process.env.NEXT_PUBLIC_BASE_URL}/airlines/flight?facilities=${facilities}&airlineId=${airlineId}`)
+
+        setSpecificFlight(filteredFlight.data);
+    }
+
+    useEffect(() => {
+       getFilteredFlight(); 
+    }, [])
+
+    useEffect(() => {
+        getFlight();
+    }, [])
 
     return (
         <main className='container'>
@@ -96,16 +118,16 @@ export default async function FindTicket() {
                                     Facilities
                                 </summary>
                                 <div className="grid grid-cols-2">
-                                    Luggage
-                                    <input type="checkbox" />
+                                    <label htmlFor="1">Luggage</label>
+                                    <input onClick={e => setFacilities(e.target.value)} type="checkbox" id="1" value="1" />
                                 </div>
                                 <div className="grid grid-cols-2">
-                                    In-Flight Meal
-                                    <input type="checkbox" />
+                                    <label htmlFor="2">In-Flight Meal</label>
+                                    <input onClick={e => setFacilities(e.target.value)} type="checkbox" id="2" value="2" />
                                 </div>
                                 <div className="grid grid-cols-2">
-                                    Wi-fi
-                                    <input type="checkbox"/>
+                                    <label htmlFor="3">Wi-fi</label>
+                                    <input onClick={e => setFacilities(e.target.value)} type="checkbox" id="3" value="3"/>
                                 </div>
                             </details>
                         </div>
@@ -170,20 +192,20 @@ export default async function FindTicket() {
                                     Airlines
                                 </summary>
                                 <div className="grid grid-cols-2">
-                                    <p>Garuda Indonesia</p>
-                                    <input type="checkbox" />
+                                    <label htmlFor="1">Garuda Indonesia</label>
+                                    <input onClick={e => setAirlineId(e.target.value)} type="checkbox" value="1" id="1" />
                                 </div>
                                 <div className="grid grid-cols-2">
-                                    <p>Lion Air</p>    
-                                    <input type="checkbox" />
+                                    <label htmlFor="2">Lion Air</label>    
+                                    <input onClick={e => setAirlineId(e.target.value)} type="checkbox" id="2" value="2" />
                                 </div>
                                 <div className="grid grid-cols-2">
-                                    <p>Citilink</p>
-                                    <input type="checkbox"/>
+                                    <label htmlFor="3">Citilink</label>
+                                    <input onClick={e => setAirlineId(e.target.value)} type="checkbox" id="3" value="3"/>
                                 </div>
                                 <div className="grid grid-cols-2">
-                                    <p>Air Asia</p>
-                                    <input type="checkbox"/>
+                                    <label htmlFor="4">Air Asia</label>
+                                    <input onClick={e => setAirlineId(e.target.value)} type="checkbox" id="4" value="4"/>
                                 </div>
                             </details>
                         </div>
@@ -197,6 +219,9 @@ export default async function FindTicket() {
                                 </summary>
                                 <input
                                     type="range"
+                                    min={10}
+                                    max={1000000}
+                                    value={10203}
                                     className="transparent h-[4px] w-full cursor-pointer appearance-none border-transparent bg-neutral-200 dark:bg-neutral-600"
                                     id="customRange1" />
                                 <div className="grid grid-cols-2 lg:gap-24">
@@ -210,7 +235,7 @@ export default async function FindTicket() {
                 <section className='lg:ml-[-18rem] grid grid-cols-1'>
                     <h1 className="text-5xl text-blue-700 text-left lg:mt-10">Select Ticket</h1>
                     {
-                        flightData?.data?.map((item: FlightData, index: any) => {
+                        specificFlight?.map((item: FlightData, index: any) => {
                             return (
                                 <div key={index} className="lg:bg-gray-100 lg:p-8 lg:rounded-xl lg:mt-10">
                                     <div className="lg:mb-10 grid grid-cols-2">
@@ -241,7 +266,7 @@ export default async function FindTicket() {
                                         <div className="lg:gap-5 lg:ml-8">
                                             <p>$ {item.price} / pax</p>
                                         </div>
-                                        <Link href={cookieStorage.has("token") ? `/tickets/findticket/${item.code}` : "/auth/login"} className='bg-blue-600 lg:h-6 lg:p-5 flex justify-center items-center rounded-xl shadow-lg shadow-black'>
+                                        <Link href={`/tickets/findticket/${item.code}`} className='bg-blue-600 lg:h-6 lg:p-5 flex justify-center items-center rounded-xl shadow-lg shadow-black'>
                                             Select
                                         </Link> 
                                     </div>

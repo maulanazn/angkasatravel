@@ -1,14 +1,15 @@
 'use client'
 
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import BirdLogo from '@/public/tickets/plane-fly-logo-big.png';
 import PlaneLogo from '@/public/tickets/plane-fly.png';
 import BirdLogoSmall from '@/public/tickets/plane-fly-logo-small.png';
 import Link from "next/link";
 import { IoCheckmarkDoneCircleOutline } from "react-icons/io5";
-import { useParams } from "next/navigation";
-import {formatToHours} form "@/lib/HelperAction";
+import { useParams, useRouter } from "next/navigation";
+import { FormatToHours } from "@/lib/HelperAction";
+
 type FlightData = {
     data: {
         code: string,
@@ -42,13 +43,54 @@ async function getDetailFlightData(url: string) {
 }
 
 export default async function MyBooking() {
+    const [passengerData, setPassengerData] = useState({
+        title1: '',
+        fullname1: '',
+        nationality1: '',
+        title2: '',
+        fullname2: '',
+        nationality2: ''
+    });
     const code = useParams();
     const {id} = code;
+    const router = useRouter();
 
     const flightDetailData: FlightData = await getDetailFlightData(`${process.env.NEXT_PUBLIC_BASE_URL}/airlines/flight/${id}`);
 
-    const landing_time = formatToHours(flightDetailData?.data?.landing, 'id-ID');
-    const takeoff_time = formatToHours(flightDetailData?.data?.takeoff, 'id-ID');
+    const landing_time = FormatToHours(flightDetailData?.data?.landing, 'id-ID');
+    const takeoff_time = FormatToHours(flightDetailData?.data?.takeoff, 'id-ID');
+    
+    async function postPassengerData() {
+        let userData = new FormData();
+
+        userData.append('title1', passengerData.title1);
+        userData.append('fullname1', passengerData.fullname1);
+        userData.append('nationality1', passengerData.nationality1);
+        userData.append('title2', passengerData.title2);
+        userData.append('fullname2', passengerData.fullname2);
+        userData.append('nationality2', passengerData.nationality2);
+
+        let result = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/booking/tickets/${flightDetailData.data.code}`, {
+            method: 'POST',
+            body: userData,
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
+        });
+
+        if (!result.ok) {
+            router.push(`/`)
+        }
+
+        router.push('/tickets/findticket')
+    }
+
+    const onPassengerChange = (e: any) => {
+        setPassengerData({
+            ...passengerData,
+            [e.target.name]:e.target.value
+        })
+    }
 
     return (
         <main className="bg-gray-100">
@@ -64,25 +106,25 @@ export default async function MyBooking() {
                 </div>
             </section>
             <div className="grid grid-cols-2">
-                <form action="#" className="lg:p-8 lg:ml-12">
+                <form onSubmit={postPassengerData} className="lg:p-8 lg:ml-12">
                     <div className="bg-white rounded-xl lg:p-8 lg:w-[42rem] mt-[-4rem] lg:mb-10">
                         <div className="grid grid-rows-1 lg:gap-5">
-                            <label htmlFor="name">Full Name</label>
-                            <input type="text" id="name" className="border-b-2" value="Mike Kovaski"/>
+                            <label>Full Name</label>
+                            <input type="text" value={passengerData.title1} onChange={onPassengerChange} id="title1" name="title1" className="border-b-2" />
                         </div>
                         <div className="grid grid-rows-1 lg:gap-5 mt-5">
-                            <label htmlFor="email">Email</label>
-                            <input type="email" id="email" className="border-b-2" value="mikekovaski@mail.com"/>
+                            <label>Email</label>
+                            <input type="email" value={passengerData.fullname1} onChange={onPassengerChange} id="fullname1" name="fullname1" className="border-b-2"/>
                         </div>
                         <div className="grid grid-rows-1 lg:gap-5 mt-5">
-                            <label htmlFor="phone">Phone Number</label>
+                            <label>Phone Number</label>
                             <div className="flex flex-row prose lg:prose-lg prose-slate">
                                 <select>
                                     <option value="id">+62</option>
                                     <option value="us">+1</option>
                                     <option value="uk">+44</option>
                                 </select>
-                                <input type="tel" id="phone" className="border-b-2" value="+629838774"/>
+                                <input type="tel" value={passengerData.nationality1} onChange={onPassengerChange} id="nationality1" name="nationality1" className="border-b-2"/>
                             </div>
                         </div>
                     </div>
@@ -102,23 +144,23 @@ export default async function MyBooking() {
                             />
                         </div>
                         <div className="grid grid-cols-1 lg:gap-5 lg:mt-10">
-                            <label htmlFor="title">Title</label>
-                            <select className="border-b-2 bg-white" data-te-select-init>
-                                <option value="mr">Mr</option>
-                                <option value="mrs">Mrs</option>
-                                <option value="aceh">Ms</option>
+                            <label>Title</label>
+                            <select className="border-b-2 bg-white" value={passengerData.title2} data-te-select-init>
+                                <option value="title2">Mr</option>
+                                <option value="title2">Mrs</option>
+                                <option value="title2">Ms</option>
                             </select>
                         </div>
                         <div className="grid grid-cols-1 lg:gap-5 mt-5">
-                            <label htmlFor="name">Full Name</label>
-                            <input type="text" id="name" className="border-b-2" placeholder="Mike Kovaski"/>
+                            <label>Full Name</label>
+                            <input type="text" id="fullname2" name="fullname2" value={passengerData.fullname2} className="border-b-2" placeholder="Mike Kovaski"/>
                         </div>
                         <div className="grid grid-cols-1 lg:gap-5 mt-5">
-                            <label htmlFor="nationality">Nasionality</label>
-                            <select className="border-b-2 bg-white" data-te-select-init>
-                                <option value="Indonesia">Indonesia</option>
-                                <option value="Russia">Russia</option>
-                                <option value="Tiongkok">Tiongkok</option>
+                            <label>Nasionality</label>
+                            <select className="border-b-2 bg-white" value={passengerData.nationality2} data-te-select-init>
+                                <option value="nationality2">Indonesia</option>
+                                <option value="nationality2">Russia</option>
+                                <option value="nationality2">Tiongkok</option>
                             </select>
                         </div>
                     </div>
@@ -138,7 +180,7 @@ export default async function MyBooking() {
                             Get travel compensation up to 10.000,00
                         </p>
                     </div>
-                    <button className="bg-blue-600 lg:w-96 lg:h-16 rounded-xl lg:ml-40 text-white flex justify-center items-center">
+                    <button type="submit" className="bg-blue-600 lg:w-96 lg:h-16 rounded-xl lg:ml-40 text-white flex justify-center items-center">
                         Proceed to Payment
                     </button>
                 </form>
