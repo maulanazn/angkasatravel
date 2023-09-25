@@ -10,7 +10,7 @@ import Link from 'next/link';
 
 type FlightData = {
     code: string,
-    name: string
+    name: string,
     photo: string,
     from: {
         location: string
@@ -119,15 +119,15 @@ export default function FindTicket() {
                                 </summary>
                                 <div className="grid grid-cols-2">
                                     <label htmlFor="1">Luggage</label>
-                                    <input onClick={e => setFacilities(e.target.value)} type="checkbox" id="1" value="1" />
+                                    <input onClick={(e: any) => setFacilities(e.target.value)} type="checkbox" id="1" value="1" />
                                 </div>
                                 <div className="grid grid-cols-2">
                                     <label htmlFor="2">In-Flight Meal</label>
-                                    <input onClick={e => setFacilities(e.target.value)} type="checkbox" id="2" value="2" />
+                                    <input onClick={(e: any) => setFacilities(e.target.value)} type="checkbox" id="2" value="2" />
                                 </div>
                                 <div className="grid grid-cols-2">
                                     <label htmlFor="3">Wi-fi</label>
-                                    <input onClick={e => setFacilities(e.target.value)} type="checkbox" id="3" value="3"/>
+                                    <input onClick={(e: any) => setFacilities(e.target.value)} type="checkbox" id="3" value="3"/>
                                 </div>
                             </details>
                         </div>
@@ -193,23 +193,23 @@ export default function FindTicket() {
                                 </summary>
                                 <div className="grid grid-cols-2">
                                     <label htmlFor="1">Singapore Airline</label>
-                                    <input onClick={e => setAirlineId(e.target.value)} type="checkbox" value="1" id="1" />
+                                    <input onClick={(e: any) => setAirlineId(e.target.value)} type="checkbox" value="1" id="1" />
                                 </div>
                                 <div className="grid grid-cols-2">
                                     <label htmlFor="2">Garuda Indonesia</label>
-                                    <input onClick={e => setAirlineId(e.target.value)} type="checkbox" value="2" id="2" />
+                                    <input onClick={(e: any) => setAirlineId(e.target.value)} type="checkbox" value="2" id="2" />
                                 </div>
                                 <div className="grid grid-cols-2">
                                     <label htmlFor="7">Lion Air</label>    
-                                    <input onClick={e => setAirlineId(e.target.value)} type="checkbox" id="7" value="7" />
+                                    <input onClick={(e: any) => setAirlineId(e.target.value)} type="checkbox" id="7" value="7" />
                                 </div>
                                 <div className="grid grid-cols-2">
                                     <label htmlFor="5">Citilink</label>
-                                    <input onClick={e => setAirlineId(e.target.value)} type="checkbox" id="5" value="5"/>
+                                    <input onClick={(e: any) => setAirlineId(e.target.value)} type="checkbox" id="5" value="5"/>
                                 </div>
                                 <div className="grid grid-cols-2">
                                     <label htmlFor="4">Air Asia</label>
-                                    <input onClick={e => setAirlineId(e.target.value)} type="checkbox" id="4" value="4"/>
+                                    <input onClick={(e: any) => setAirlineId(e.target.value)} type="checkbox" id="4" value="4"/>
                                 </div>
                             </details>
                         </div>
