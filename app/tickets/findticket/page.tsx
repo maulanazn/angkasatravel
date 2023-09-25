@@ -56,7 +56,7 @@ export default function FindTicket() {
 
     useEffect(() => {
        getFilteredFlight(); 
-    }, [])
+    }, [facilities, airlineId])
 
     useEffect(() => {
         getFlight();
@@ -192,16 +192,20 @@ export default function FindTicket() {
                                     Airlines
                                 </summary>
                                 <div className="grid grid-cols-2">
-                                    <label htmlFor="1">Garuda Indonesia</label>
+                                    <label htmlFor="1">Singapore Airline</label>
                                     <input onClick={e => setAirlineId(e.target.value)} type="checkbox" value="1" id="1" />
                                 </div>
                                 <div className="grid grid-cols-2">
-                                    <label htmlFor="2">Lion Air</label>    
-                                    <input onClick={e => setAirlineId(e.target.value)} type="checkbox" id="2" value="2" />
+                                    <label htmlFor="2">Garuda Indonesia</label>
+                                    <input onClick={e => setAirlineId(e.target.value)} type="checkbox" value="2" id="2" />
                                 </div>
                                 <div className="grid grid-cols-2">
-                                    <label htmlFor="3">Citilink</label>
-                                    <input onClick={e => setAirlineId(e.target.value)} type="checkbox" id="3" value="3"/>
+                                    <label htmlFor="7">Lion Air</label>    
+                                    <input onClick={e => setAirlineId(e.target.value)} type="checkbox" id="7" value="7" />
+                                </div>
+                                <div className="grid grid-cols-2">
+                                    <label htmlFor="5">Citilink</label>
+                                    <input onClick={e => setAirlineId(e.target.value)} type="checkbox" id="5" value="5"/>
                                 </div>
                                 <div className="grid grid-cols-2">
                                     <label htmlFor="4">Air Asia</label>
