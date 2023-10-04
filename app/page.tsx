@@ -1,16 +1,16 @@
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
 import BirdLogoMini from '@/public/auth/angkasa-logo-mini.png';
-import { IoChevronBack, IoChevronForward, IoLocation, IoLogoFacebook, IoLogoInstagram, IoLogoTwitch, IoLogoYoutube, IoMailOutline, IoNotificationsOutline } from 'react-icons/io5';
+import { IoChevronBack, IoChevronForward, IoLocation, IoLogoFacebook, IoLogoInstagram, IoLogoTwitch, IoLogoYoutube } from 'react-icons/io5';
 import GPlayLogo from '@/public/home/google-play-store.png';
 import APlayLogo from '@/public/home/apple-app-store.png';
 import Jpn1 from '@/public/home/travel-1.png'
 import Jpn2 from '@/public/home/travel-2.png'
-import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 export const runtime = 'edge';
-
 type TripData = {
     id: number,
     trip_image: string,
@@ -19,30 +19,15 @@ type TripData = {
     country: string
 }
 
-async function getTripData(url: string) {
-    const res = await fetch(url);
-
-    if (!res.ok) {
-        throw new Error("Failed to fetch data")
-    }
-
-    return res.json()
-}
-
 async function logoutUser() {
-    'use server'
-    const cookieStorage = cookies();
-
-    cookieStorage.delete("id")
-    cookieStorage.delete("token")
+    localStorage.removeItem("uniqId")
+    localStorage.removeItem("token")
+    localStorage.removeItem("refresh_token")
 
     return redirect("/auth/login")
 }
 
-export default async function Home() {
-    const cookieStorage = cookies();
-    const tripData = await getTripData("https://6503a8bea0f2c1f3faec1195.mockapi.io/flight/lists/trip_inspiration");
-
+export default function Home() {
     return (
         <main className='container'>
             <nav className='grid grid-cols-5 lg:p-10'>
@@ -51,15 +36,15 @@ export default async function Home() {
                 </Link>
 
                 <input type="search" className="lg:ml-42 lg:mr-5 bg-gray-200 lg:w-80 lg:h-10 rounded-xl border-xl" placeholder="Where you want to go?" />
-                <Link href={cookieStorage.has("token") ? "/tickets/findticket" : '/auth/login'} className="lg:hover:border-b-2 lg:ml-40 lg:hover:border-b-blue-800">
+                <Link href={localStorage.getItem("token") ? "/tickets/findticket" : '/auth/login'} className="lg:hover:border-b-2 lg:ml-40 lg:hover:border-b-blue-800">
                     Find Tickets
                 </Link>
-                <Link href={cookieStorage.has("token") ? `/profile/1/booking` : '/auth/login'} className="lg:ml-36 lg:hover:border-b-2 lg:hover:border-b-blue-800">
+                <Link href={localStorage.getItem("token") ? `/profile/1/booking` : '/auth/login'} className="lg:ml-36 lg:hover:border-b-2 lg:hover:border-b-blue-800">
                     My Bookings
                 </Link>
 
                 {
-                    cookieStorage.has("token") ? 
+                    localStorage.getItem("token") ? 
                         <form action={logoutUser} method="get">
                             <div className="flex flex-row lg:ml-44 lg:mt-2 lg:gap-5">
                                 <button type='submit'>Log Out</button>
@@ -87,21 +72,17 @@ export default async function Home() {
                     <h1 className="text-black text-xl lg:ml-[30rem]">View all</h1>
                 </div>
                 <div className="grid sm:grid lg:grid-cols-6 sm:grid-cols-3 gap-10 sm:gap-10">
-                    {tripData?.map((item: TripData, index: any) => {
-                        return (
-                            <div key={index} className="shadow-lg shadow-black hover:shadow-none">
-                                <Image src={item.trip_image} alt={item.places} height={0} width={300}/>
-                                <div className="px-4 py-4 bg-gray-700">
-                                    <Link href="/tickets/findticket" className="grid sm:grid rounded-xl lg:grid-cols-2 sm:grid-cols-1 bg-white bg-opacity-25 lg:w-36">
-                                        <p className="text-white lg:ml-0">{item.airlines_available}</p>
-                                        <p className="text-white lg:ml-[0rem] font-extralight">Airlines</p>
-                                    </Link>
-                                    <p className="text-xl text-center sm:text-center text-white lg:mb-6">{item.places},</p>
-                                    <p className="text-xl text-white">{item.country}</p>
-                                </div>
-                            </div>
-                        )
-                    })}
+                    <div className="shadow-lg shadow-black hover:shadow-none">
+                        <Image src={''} alt={''} height={0} width={300}/>
+                        <div className="px-4 py-4 bg-gray-700">
+                            <Link href="/tickets/findticket" className="grid sm:grid rounded-xl lg:grid-cols-2 sm:grid-cols-1 bg-white bg-opacity-25 lg:w-36">
+                                <p className="text-white lg:ml-0">Tes</p>
+                                <p className="text-white lg:ml-[0rem] font-extralight">Airlines</p>
+                            </Link>
+                            <p className="text-xl text-center sm:text-center text-white lg:mb-6">Tes place</p>
+                            <p className="text-xl text-white">Tes country</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -114,14 +95,10 @@ export default async function Home() {
                     </div>
                     <div className="grid lg:grid-cols-6 sm:grid-cols-1 lg:text-center">
                         <div className="grid grid-cols-6 lg:gap-44 lg:ml-32 lg:mt-10">
-                        {tripData?.map((item: TripData, index: any) => {
-                            return (
-                                <div key={index} className="shadow-lg grid grid-rows-2 shadow-black hover:shadow-none">
-                                    <Image className="rounded-full" src={item.trip_image} alt={item.places} width={250} height={0} />
-                                    <p className="text-white text-xl">{item.country}</p>
-                                </div>
-                            )
-                        })}
+                            <div className="shadow-lg grid grid-rows-2 shadow-black hover:shadow-none">
+                                <Image className="rounded-full" src={''} alt={''} width={250} height={0} />
+                                <p className="text-white text-xl">Tes country</p>
+                            </div>
                         </div>
                     </div>
                     <div className="grid grid-cols-2 lg:mt-10 lg:gap-10">

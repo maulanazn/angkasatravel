@@ -1,3 +1,5 @@
+'use client'
+
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -7,7 +9,6 @@ import BirdLogoMini from '@/public/auth/angkasa-logo-mini.png';
 import GPlayLogo from '@/public/home/google-play-store.png';
 import APlayLogo from '@/public/home/apple-app-store.png';
 import { Poppins } from "next/font/google";
-import { cookies } from "next/headers";
 
 const poppins = Poppins({weight: "500", preload: false})
 
@@ -16,8 +17,6 @@ export const runtime = 'edge';
 export default function TicketLayout({children}: {
     children: React.ReactNode
 }) {
-    const cookieStorage = cookies();
-
     return (
         <html>
             <body className={poppins.className}>
@@ -32,7 +31,7 @@ export default function TicketLayout({children}: {
                             Find Tickets
                         </Link>
                         {
-                            cookieStorage.has("token") ?
+                            localStorage.getItem("token") ?
                                 <Link href="/profile/1/booking" className="lg:ml-28 lg:hover:border-b-2 lg:hover:border-b-blue-800">
                                     My Bookings
                                 </Link>
@@ -43,21 +42,21 @@ export default function TicketLayout({children}: {
                     
                     <div className="grid grid-cols-3 lg:gap-5 lg:ml-40">
                         {
-                            cookieStorage.has("token") ?
+                            localStorage.getItem("token") ?
                             <Link href="#">
                                 <IoMailOutline size={30}/>
                             </Link>
                             : undefined
                         }
                         {
-                             cookieStorage.has("token") ?
+                             localStorage.getItem("token") ?
                             <Link href="#">
                                 <IoNotificationsOutline size={30}/>
                             </Link>
                             : undefined
                         }
                         {
-                            cookieStorage.has("token") ?
+                            localStorage.getItem("token") ?
                                 <Link href="/profile/1">
                                     <Image className='rounded-full' src="https://avatars.githubusercontent.com/u/70041921?v=4" alt="your profile" width="40" height="40" />
                                 </Link>

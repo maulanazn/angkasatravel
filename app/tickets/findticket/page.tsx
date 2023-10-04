@@ -5,8 +5,9 @@ import BirdLogoMini from '@/public/tickets/plane-fly.png';
 
 import {IoSwapHorizontalSharp} from 'react-icons/io5';
 import Image from 'next/image'
-import React, { cache, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link';
+import axios, { AxiosResponse } from 'axios';
 
 type FlightData = {
     code: string,
@@ -26,32 +27,22 @@ type FlightData = {
     price: number
 }
 
-async function getFlightData(url: string) {
-    const res = await fetch(url, {cache: 'force-cache'});
-
-    if (!res.ok) {
-        throw new Error("Failed to fetch data")
-    }
-
-    return res.json()
-}
-
 export default function FindTicket() {
     const [facilities, setFacilities] = useState([]);
     const [airlineId, setAirlineId] = useState([]);
-    const [price, setPrice] = useState([]);
+    const [time, setTime] = useState([]);
     const [specificFlight, setSpecificFlight] = useState([]);
 
     const getFlight = async () => {
-        const flightData = await getFlightData(`${process.env.NEXT_PUBLIC_BASE_URL}/airlines/flight`);
+        const flightData: any = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/airlines/flight`);
         
-        setSpecificFlight(flightData.data);
+        setSpecificFlight(flightData.data.data);
     }
 
     const getFilteredFlight = async () => {
-        const filteredFlight = await getFlightData(`${process.env.NEXT_PUBLIC_BASE_URL}/airlines/flight?facilities=${facilities}&airlineId=${airlineId}`)
+        const filteredFlight: any = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/airlines/flight?facilities=${facilities}&airlineId=${airlineId}`)
 
-        setSpecificFlight(filteredFlight.data);
+        setSpecificFlight(filteredFlight.data.data);
     }
 
     useEffect(() => {

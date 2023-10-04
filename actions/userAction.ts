@@ -1,49 +1,9 @@
 import { redirect } from "next/navigation";
-import {cookies} from 'next/headers';
-
-type LoginData = {
-    email: string
-    password: string
-}
 
 type RegisterData = {
     name: string
     email: string
     password: string
-}
-
-
-export async function loginUser(formData: FormData) {
-    'use server'
-    const cookieStorage = cookies();
-    const email: any = formData.get("email")?.toString();
-    const password: any = formData.get("password")?.toString();
-
-    !email || !password && new Response("Noo")
-
-    const newLoginData: LoginData = {
-        email,
-        password
-    }
-
-    const body = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`, {
-        method: 'POST',
-        body: JSON.stringify(newLoginData),
-        headers: {
-            "Content-Type": "application/json"
-        }
-    })
-
-    const data = await body.json();
-
-    cookieStorage.set("id", data.data.uniqId, {secure: true})
-    cookieStorage.set("token", data.data.access_token, {secure: true})
-
-    if (!body.ok) {
-        redirect('/auth/login')
-    }
-
-    redirect('/')
 }
 
 export async function registerUser(formData: FormData) {
