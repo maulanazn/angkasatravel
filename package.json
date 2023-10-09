@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "cypress:open": "cypress open"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.10",
@@ -15,6 +16,7 @@
     "@types/react-dom": "18.2.7",
     "autoprefixer": "^10.4.15",
     "axios": "^1.5.1",
+    "cypress": "^13.3.0",
     "eslint": "8.49.0",
     "eslint-config-next": "13.4.19",
     "next": "13.5.3",

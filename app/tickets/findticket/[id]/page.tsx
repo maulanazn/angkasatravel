@@ -86,7 +86,7 @@ export default function MyBooking() {
     }
 
     setUserData(result.data.data);
-    router.push('/tickets/findticket')
+    router.push(`/tickets/findticket/${id}/payment`)
   }
 
   function handlePostPassengerData(event: any) {

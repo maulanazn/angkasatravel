@@ -47,7 +47,7 @@ export default function Home() {
                     localStorage.getItem("token") ? 
                         <form action={logoutUser} method="get">
                             <div className="flex flex-row lg:ml-44 lg:mt-2 lg:gap-5">
-                                <button type='submit'>Log Out</button>
+                                <button className="logout" type='submit'>Log Out</button>
                             </div>
                         </form>
                         :
