@@ -9,7 +9,7 @@ export default function MyPayment() {
   const {id} = code;
   const navigate = useRouter();
   const [statusId, setStatusId] = useState({
-    statusId: 2
+    statusId: "2"
   })
 
   async function PayNow(event: any) {

@@ -7,7 +7,7 @@ import {IoSwapHorizontalSharp} from 'react-icons/io5';
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link';
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 
 type FlightData = {
     code: string,
@@ -30,7 +30,6 @@ type FlightData = {
 export default function FindTicket() {
     const [facilities, setFacilities] = useState([]);
     const [airlineId, setAirlineId] = useState([]);
-    const [time, setTime] = useState([]);
     const [specificFlight, setSpecificFlight] = useState([]);
 
     const getFlight = async () => {

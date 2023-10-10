@@ -73,7 +73,7 @@ export default function MyBooking() {
   async function postPassengerData(event: any) {
     event.preventDefault();
 
-    let result = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/booking/tickets/${id}`, userData, {
+    let postTicket = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/booking/tickets/${id}`, userData, {
       headers:
       {
         "Authorization": `Bearer ${localStorage.getItem("token")}`,
@@ -81,12 +81,20 @@ export default function MyBooking() {
       }
     });
 
-    if (result.status != 201) {
+    let personId = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/booking/tickets/${postTicket.data.data.code}`, {
+      headers:
+      {
+        "Authorization": `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json"
+      }
+    });
+
+    if (postTicket.status != 201) {
       router.push(`/`)
     }
 
-    setUserData(result.data.data);
-    router.push(`/tickets/findticket/${id}/payment`)
+    setUserData(postTicket.data.data);
+    router.push(`/tickets/findticket/${personId.data.data.result.code}/payment`)
   }
 
   function handlePostPassengerData(event: any) {

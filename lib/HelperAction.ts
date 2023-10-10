@@ -1,4 +1,9 @@
-export function FormatToHours(value: any, locale: any = null) {
+export function FormatToHours(value: any) {
     const fromTime = new Date(value);
-    return fromTime.toLocaleTimeString(locale);
+    return fromTime.toLocaleTimeString();
+}
+
+export function FormatToDate(value: any) {
+    const fromTime = new Date(value);
+    return fromTime.toDateString();
 }
