@@ -1,7 +1,9 @@
+'use client'
+
 import { Poppins } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { IoChevronForwardOutline, IoLocation, IoLogOutOutline, IoLogoFacebook, IoLogoInstagram, IoLogoTwitch, IoLogoYoutube, IoMailOutline, IoNotificationsOutline, IoPersonCircleOutline, IoSettingsOutline, IoStarOutline } from "react-icons/io5";
 import BirdLogoMini from '@/public/auth/angkasa-logo-mini.png';
 import GPlayLogo from '@/public/home/google-play-store.png';
@@ -11,6 +13,29 @@ const poppins = Poppins({weight: "500", preload: false});
 export const runtime = 'edge';
 
 export default function ProfileLayout({children}: {children: React.ReactNode}) {
+    const [userData, setUserData] = useState({
+        uniqId: "",
+		email: "",
+		name: ""
+    })
+
+    async function getUserDetail() {
+        const result = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/users/detail`, {
+            cache: 'force-cache',
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+            }
+        })
+
+        const data = await result.json()
+
+        setUserData(data.data);
+    }
+
+    useEffect(() => {
+        getUserDetail()
+    }, [])
+
     return (
         <html>
             <body className={poppins.className}>
@@ -24,7 +49,7 @@ export default function ProfileLayout({children}: {children: React.ReactNode}) {
                         <Link href="/tickets/findticket" className="lg:hover:border-b-2 lg:ml-36 lg:hover:border-b-blue-800">
                             Find Tickets
                         </Link>
-                        <Link href="/profile/1/booking" className="lg:ml-32 lg:hover:border-b-2 lg:hover:border-b-blue-800">
+                        <Link href={`/profile/${userData.uniqId}/booking`} className="lg:ml-32 lg:hover:border-b-2 lg:hover:border-b-blue-800">
                             My Bookings
                         </Link>
                     </div>
@@ -69,9 +94,9 @@ export default function ProfileLayout({children}: {children: React.ReactNode}) {
                                     <IoPersonCircleOutline/>
                                     <p className="text-xl text-black">Profile</p>
                                 </Link>
-                                <Link href="#" className="grid grid-cols-2 lg:gap-1">
+                                <Link href={`/profile/${userData.uniqId}/booking`} className="grid grid-cols-2 lg:gap-1">
                                     <IoStarOutline/>
-                                    <p className="text-xl text-black">My Review</p>
+                                    <p className="text-xl text-black">My Booking</p>
                                 </Link>
                                 <Link href="#" className="grid grid-cols-2 lg:gap-1">
                                     <IoSettingsOutline/>

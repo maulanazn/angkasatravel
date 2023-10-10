@@ -9,6 +9,7 @@ import APlayLogo from '@/public/home/apple-app-store.png';
 import Jpn1 from '@/public/home/travel-1.png'
 import Jpn2 from '@/public/home/travel-2.png'
 import { redirect } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export const runtime = 'edge';
 type TripData = {
@@ -28,6 +29,29 @@ async function logoutUser() {
 }
 
 export default function Home() {
+    const [userData, setUserData] = useState({
+        uniqId: "",
+		email: "",
+		name: ""
+    })
+
+    async function getUserDetail() {
+        const result = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/users/detail`, {
+            cache: 'force-cache',
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+
+        const data = await result.json()
+
+        setUserData(data.data);
+    }
+
+    useEffect(() => {
+        getUserDetail()
+    }, [])
+
     return (
         <main className='container'>
             <nav className='grid grid-cols-5 lg:p-10'>
@@ -39,7 +63,7 @@ export default function Home() {
                 <Link href={localStorage.getItem("token") ? "/tickets/findticket" : '/auth/login'} className="lg:hover:border-b-2 lg:ml-40 lg:hover:border-b-blue-800">
                     Find Tickets
                 </Link>
-                <Link href={localStorage.getItem("token") ? `/profile/1/booking` : '/auth/login'} className="lg:ml-36 lg:hover:border-b-2 lg:hover:border-b-blue-800">
+                <Link href={localStorage.getItem("token") ? `/profile/${userData.uniqId}/booking` : '/auth/login'} className="lg:ml-36 lg:hover:border-b-2 lg:hover:border-b-blue-800">
                     My Bookings
                 </Link>
 

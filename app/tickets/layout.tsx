@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {IoLocation, IoLogoFacebook, IoLogoInstagram, IoLogoTwitch, IoLogoYoutube, IoMailOutline} from 'react-icons/io5';
 import {IoNotificationsOutline} from 'react-icons/io5';
 import BirdLogoMini from '@/public/auth/angkasa-logo-mini.png';
@@ -17,6 +17,29 @@ export const runtime = 'edge';
 export default function TicketLayout({children}: {
     children: React.ReactNode
 }) {
+    const [userData, setUserData] = useState({
+        uniqId: "",
+		email: "",
+		name: ""
+    })
+
+    async function getUserDetail() {
+        const result = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/users/detail`, {
+            cache: 'force-cache',
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+
+        const data = await result.json()
+
+        setUserData(data.data);
+    }
+
+    useEffect(() => {
+        getUserDetail()
+    }, [])
+    
     return (
         <html>
             <body className={poppins.className}>
@@ -32,7 +55,7 @@ export default function TicketLayout({children}: {
                         </Link>
                         {
                             localStorage.getItem("token") ?
-                                <Link href="/profile/1/booking" className="lg:ml-28 lg:hover:border-b-2 lg:hover:border-b-blue-800">
+                                <Link href={`/profile/${userData.uniqId}/booking`} className="lg:ml-28 lg:hover:border-b-2 lg:hover:border-b-blue-800">
                                     My Bookings
                                 </Link>
                             : undefined
@@ -57,7 +80,7 @@ export default function TicketLayout({children}: {
                         }
                         {
                             localStorage.getItem("token") ?
-                                <Link href="/profile/1">
+                                <Link href={`/profile/${userData.uniqId}`}>
                                     <Image className='rounded-full' src="https://avatars.githubusercontent.com/u/70041921?v=4" alt="your profile" width="40" height="40" />
                                 </Link>
                             :
