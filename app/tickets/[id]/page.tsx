@@ -5,7 +5,6 @@ import { useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import PlaneLogo from '@/public/tickets/plane-fly.png';
 import Image from 'next/image';
-import axios from 'axios';
 import { FormatToDate, FormatToHours } from '@/lib/HelperAction';
 
 export default function MyPassBook() {

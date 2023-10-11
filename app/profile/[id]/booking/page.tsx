@@ -6,14 +6,13 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Booking() {
-  const {id} = useParams()
   const [bookingData, setBookingData] = useState([]);
 
   let barcodeResult = JsBarcode("#barcode")
 
   async function getBookingPass() {
     let bookingId: any = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/booking/tickets`, {
-      cache: 'force-cache',
+      cache: 'reload',
       method: 'GET',
       headers:
       {
@@ -24,8 +23,7 @@ export default function Booking() {
 
     let result: any = await bookingId.json();
 
-    setBookingData(result.data)
-    console.log(result.data)
+    setBookingData(result.data.result)
   }
 
   useEffect(() => {
@@ -48,7 +46,7 @@ export default function Booking() {
         </div>
       </div>
       {
-        bookingData?.result?.map((item: any, index: any) => {
+        bookingData?.map((item: any, index: any) => {
           return (
             <div key={index} className="bg-white lg:p-8 mt-8 mb-8">
               <div className="grid grid-cols-2 lg:mb-5">
