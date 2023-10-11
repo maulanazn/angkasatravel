@@ -5,8 +5,7 @@ import { useParams, useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 
 export default function MyPayment() {
-  const code = useParams();
-  const {id} = code;
+  const {id} = useParams();
   const navigate = useRouter();
   const [statusId, setStatusId] = useState({
     statusId: "2"
@@ -15,7 +14,12 @@ export default function MyPayment() {
   async function PayNow(event: any) {
     event.preventDefault();
 
-    let result = await axios.put(`${process.env.NEXT_PUBLIC_BASE_URL}/booking/status/${id}`, statusId);
+    let result = await axios.put(`${process.env.NEXT_PUBLIC_BASE_URL}/booking/status/${id}`, statusId, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json"
+      }
+    });
 
     if (result.status == 400 || result.status == 500) {
       navigate.back()

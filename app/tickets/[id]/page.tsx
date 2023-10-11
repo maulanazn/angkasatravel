@@ -44,7 +44,7 @@ export default function MyPassBook() {
     let result = await bookingId.json();
 
     setBookingData(result.data.result)
-    console.log(result.data.result)
+    
   }
 
   useEffect(() => {
